@@ -1,0 +1,3 @@
+glibc-solibs >= 2.11.1
+perl >= 5.10
+pcsc-lite >= 1.6.1
