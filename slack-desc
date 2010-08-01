@@ -1,0 +1,13 @@
+pcsc-tools: pcsc-tools (Tools for smart cards and PC/SC)
+pcsc-tools:
+pcsc-tools: These tools are used to test a PC/SC driver, card or reader
+pcsc-tools: or send commands in a friendly environment (text or GUI):
+pcsc-tools:  * pcsc_scan(1) scans available smart card readers and prints
+pcsc-tools:    detected events: card insertion with ATR, card removal;
+pcsc-tools:  * ATR_analysis(1) analyses a smart card ATR (Answer To Reset);
+pcsc-tools:  * scriptor(1) Perl script to send commands to a smart card
+pcsc-tools:    using a batch file or stdin;
+pcsc-tools:  * gscriptor(1) the same idea as scriptor.pl(1) but with
+pcsc-tools:    Perl-Gtk GUI. 
+pcsc-tools:
+pcsc-tools: Packaged by Georgi D. Sotirov <gdsotirov@dir.bg>
