@@ -1,17 +1,33 @@
 #!/bin/sh
 #
-# SlackBuild for pcsc-tools
-# Written by Georgi D. Sotirov <gdsotirov@dir.bg>
+# Slackware build script for pcsc-tools
+# Copyright (C) 2010 Georgi D. Sotirov <gdsotirov@dir.bg>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# Visit SlackPack at http://sotirov-bg.net/slackpack/
+#
+# $Id: pcsc-tools.SlackBuild,v 1.2 2017/01/29 09:20:53 gsotirov Exp $
 #
 
-. ../slack-package.conf
+. ../../slack-package.conf
 
 NAME=pcsc-tools
 VERSION=1.4.16
-BUILD=1
-DRIVERS_DIR=/usr/lib/pcsc/drivers
-SRVCS_DIR=/usr/lib/pcsc/services
 ARCH=${ARCH:-i486}
+BUILD=${BUILD:-1}
 
 TMP=${TMP:-/tmp}
 CWD=${CWD:-`pwd`}
@@ -35,18 +51,18 @@ mkdir -p $PKG
 
 # Extract the source
 cd $TMP
-tar -xvf $CWD/$NAME-$VERSION.tar.gz
+tar -xvf $CWD/$NAME-$VERSION.tar.gz || exit 3
 cd $SRC
 fix_source
 
 # Apply patches
-patch -p1 < $CWD/$NAME-$VERSION.diff
+patch -p1 < $CWD/$NAME-$VERSION.diff || exit 4
 
 # Configure
 
 # Build & install
-make SLKCFLAGS="$SLKCFLAGS" || exit 2
-make DESTDIR=$PKG/usr install || exit 3
+make SLKCFLAGS="$SLKCFLAGS" || exit 5
+make DESTDIR=$PKG/usr install || exit 6
 
 # Additional install steps
 mkdir -p $PKG/usr/share/applications
@@ -63,11 +79,12 @@ install -m 644 $CWD/slack-desc     $PKG/install/slack-desc
 install -m 644 $CWD/slack-required $PKG/install/slack-required
 install -m 644 $CWD/slack-suggests $PKG/install/slack-suggests
 
-mkdir -p $PKG/usr/src/slackbuilds/$NAME-$VERSION
-install -m 644 $CWD/slack-desc       $PKG/usr/src/slackbuilds/$NAME-$VERSION/slack-desc
-install -m 644 $CWD/slack-required   $PKG/usr/src/slackbuilds/$NAME-$VERSION/slack-required
-install -m 644 $CWD/slack-suggests   $PKG/usr/src/slackbuilds/$NAME-$VERSION/slack-suggests
-install -m 644 $CWD/$NAME.SlackBuild $PKG/usr/src/slackbuilds/$NAME-$VERSION/$NAME.SlackBuild
+SBDIR=$PKG/usr/src/slackbuilds/${NAME}-${VERSION}
+mkdir -p $SBDIR
+install -m 644 $CWD/slack-desc       $SBDIR/slack-desc
+install -m 644 $CWD/slack-required   $SBDIR/slack-required
+install -m 644 $CWD/slack-suggests   $SBDIR/slack-suggests
+install -m 644 $CWD/$NAME.SlackBuild $SBDIR/$NAME.SlackBuild
 
 cd $PKG
 PKGNAME=$NAME-$VERSION-$ARCH-$BUILD$MYIN
