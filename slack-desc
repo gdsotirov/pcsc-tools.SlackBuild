@@ -10,4 +10,7 @@ pcsc-tools:    using a batch file or stdin;
 pcsc-tools:  * gscriptor(1) the same idea as scriptor.pl(1) but with
 pcsc-tools:    Perl-Gtk GUI. 
 pcsc-tools:
+pcsc-tools: Note: For gscriptor you need to install Glib, Gtk2 and
+pcsc-tools:       Chipcard::PCSC Perl modules from CPAN.
+pcsc-tools:
 pcsc-tools: Packaged by Georgi D. Sotirov <gdsotirov@dir.bg>
