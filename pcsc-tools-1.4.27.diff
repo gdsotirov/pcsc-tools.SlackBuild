@@ -1,23 +1,14 @@
 diff -urNad pcsc-tools-pcsc-tools-1.4.27-orig/Makefile pcsc-tools-pcsc-tools-1.4.27/Makefile
 --- pcsc-tools-pcsc-tools-1.4.27-orig/Makefile	2016-07-02 19:23:15.000000000 +0300
 +++ pcsc-tools-pcsc-tools-1.4.27/Makefile	2017-01-29 15:07:34.874400407 +0200
-@@ -6,7 +6,7 @@
- DESTDIR ?= /usr/local
- 
- VERSION := $(shell pwd | sed s/.*tools-//)
--CFLAGS := $(CFLAGS) -DVERSION=\"$(VERSION)\" $(PCSC_CFLAGS)
-+CFLAGS := $(EXT_CFLAGS) -DVERSION=\"$(VERSION)\" $(PCSC_CFLAGS)
- LDLIBS := $(PCSC_LDLIBS)
- # On xBSD systems use
- #LDLIBS = -lc_r $(PCSC_LDLIBS)
 @@ -14,6 +14,11 @@
  #CFLAGS = -Wall -O2 -DVERSION=\"$(VERSION)\"
  #LDLIBS = -framework PCSC
  
-+INSTALL_PREFIX=/usr
-+INSTALL_BINDIR=$(INSTALL_PREFIX)/bin
-+INSTALL_DATADIR=$(INSTALL_PREFIX)/share
-+INSTALL_MANDIR=$(INSTALL_DATADIR)/man
++INSTALL_PREFIX  ?= /usr
++INSTALL_BINDIR  ?= $(INSTALL_PREFIX)/bin
++INSTALL_DATADIR ?= $(INSTALL_PREFIX)/share
++INSTALL_MANDIR  ?= $(INSTALL_DATADIR)/man
 +
  BIN = pcsc_scan
  BIN_SCRIPT = ATR_analysis gscriptor scriptor
