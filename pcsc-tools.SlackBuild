@@ -19,7 +19,7 @@
 #
 # Visit SlackPack at http://sotirov-bg.net/slackpack/
 #
-# $Id: pcsc-tools.SlackBuild,v 1.6 2017/01/29 13:19:57 gsotirov Exp $
+# $Id: pcsc-tools.SlackBuild,v 1.7 2017/02/06 17:23:30 gsotirov Exp $
 #
 
 . ../../slack-package.conf
@@ -63,11 +63,11 @@ fi
 # Configure
 
 # Build & install
-make EXT_CFLAGS="$SLKCFLAGS" || exit 5
+CFLAGS="$SLKCFLAGS" make || exit 5
 make DESTDIR=$PKG \
      INSTALL_PREFIX=/usr \
      INSTALL_MANDIR=/usr/man \
-     -e install || exit 6
+     install || exit 6
 
 # Additional install steps
 mkdir -p $PKG/usr/share/applications
