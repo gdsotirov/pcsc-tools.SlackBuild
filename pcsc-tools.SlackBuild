@@ -19,13 +19,13 @@
 #
 # Visit SlackPack at http://sotirov-bg.net/slackpack/
 #
-# $Id: pcsc-tools.SlackBuild,v 1.7 2017/02/06 17:23:30 gsotirov Exp $
+# $Id: pcsc-tools.SlackBuild,v 1.8 2017/06/01 08:35:28 gsotirov Exp $
 #
 
 . ../../slack-package.conf
 
 NAME=pcsc-tools
-VERSION=1.4.27
+VERSION=1.5.2
 ARCH=${ARCH:-i586}
 BUILD=${BUILD:-1}
 
@@ -61,9 +61,17 @@ if [ -e $CWD/${NAME}-${VERSION}.diff ]; then
 fi
 
 # Configure
+autoreconf -vif || exit 51
+CFLAGS="$SLKCFLAGS" \
+./configure --build=${ARCH}-slackware-linux \
+            --host=${ARCH}-slackware-linux \
+            --prefix=/usr \
+            --mandir=/usr/man \
+            --docdir=/usr/doc/${NAMEL}-${VERSION} || exit 5
 
 # Build & install
-CFLAGS="$SLKCFLAGS" make || exit 5
+make V=1 -j || exit 6
+make DESTDIR=$PKG install || exit 7
 make DESTDIR=$PKG \
      INSTALL_PREFIX=/usr \
      INSTALL_MANDIR=/usr/man \
@@ -76,7 +84,7 @@ install -m 644 $SRC/gscriptor.desktop $PKG/usr/share/applications
 # Prepare
 bin_perms $PKG
 ( cd $PKG; strip_bin; strip_lib )
-#gzip_man $PKG
+gzip_man $PKG
 DOCFILES="$DOCFILES LICENCE"
 create_docs $PKG ${NAME}-${VERSION}
 ( cd $PKG/usr/doc/${NAME}-${VERSION}; mv LICENCE COPYING )
