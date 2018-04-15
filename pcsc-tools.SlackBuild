@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Slackware build script for pcsc-tools
-# Copyright (C) 2010-2017 Georgi D. Sotirov <gdsotirov@dir.bg>
+# Copyright (C) 2010-2018 Georgi D. Sotirov <gdsotirov@dir.bg>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,13 +19,13 @@
 #
 # Visit SlackPack at http://sotirov-bg.net/slackpack/
 #
-# $Id: pcsc-tools.SlackBuild,v 1.8 2017/06/01 08:35:28 gsotirov Exp $
+# $Id: pcsc-tools.SlackBuild,v 1.9 2018/04/15 17:23:42 gsotirov Exp $
 #
 
 . ../../slack-package.conf
 
 NAME=pcsc-tools
-VERSION=1.5.2
+VERSION=1.5.3
 ARCH=${ARCH:-i586}
 BUILD=${BUILD:-1}
 
