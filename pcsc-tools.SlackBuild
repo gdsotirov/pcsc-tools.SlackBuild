@@ -25,7 +25,7 @@
 . ../../slack-package.conf
 
 NAME=pcsc-tools
-VERSION=1.5.6
+VERSION=1.5.7
 ARCH=${ARCH:-i586}
 BUILD=${BUILD:-1}
 
@@ -79,7 +79,7 @@ make DESTDIR=$PKG \
 
 # Additional install steps
 mkdir -p $PKG/usr/share/applications
-install -m 644 $SRC/gscriptor.desktop $PKG/usr/share/applications
+install -m 644 -p $SRC/gscriptor.desktop $PKG/usr/share/applications
 
 # Prepare
 bin_perms $PKG
@@ -90,17 +90,17 @@ create_docs $PKG ${NAME}-${VERSION}
 ( cd $PKG/usr/doc/${NAME}-${VERSION}; mv LICENCE COPYING )
 
 mkdir -p $PKG/install
-install -m 644 $CWD/slack-desc     $PKG/install/slack-desc
-install -m 644 $CWD/slack-required $PKG/install/slack-required
+install -m 644 -p $CWD/slack-desc     $PKG/install/slack-desc
+install -m 644 -p $CWD/slack-required $PKG/install/slack-required
 
 SBDIR=$PKG/usr/src/slackbuilds/${NAME}-${VERSION}
 mkdir -p $SBDIR
-install -m 644 $CWD/slack-desc       $SBDIR/slack-desc
-install -m 644 $CWD/slack-required   $SBDIR/slack-required
+install -m 644 -p $CWD/slack-desc       $SBDIR/slack-desc
+install -m 644 -p $CWD/slack-required   $SBDIR/slack-required
 if [ -e $CWD/${NAME}-${VERSION}.diff ]; then
-  install -m 644 $CWD/${NAME}-${VERSION}.diff $SBDIR/${NAME}-${VERSION}.diff
+  install -m 644 -p $CWD/${NAME}-${VERSION}.diff $SBDIR/${NAME}-${VERSION}.diff
 fi
-install -m 644 $CWD/${NAME}.SlackBuild $SBDIR/${NAME}.SlackBuild
+install -m 644 -p $CWD/${NAME}.SlackBuild $SBDIR/${NAME}.SlackBuild
 
 cd $PKG
 PKGNAME=${NAME}-${VERSION}-${ARCH}-${BUILD}${MYIN}
