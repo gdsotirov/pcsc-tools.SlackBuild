@@ -13,4 +13,4 @@ pcsc-tools:
 pcsc-tools: Note: For gscriptor you need to install Glib, Gtk2 and
 pcsc-tools:       Chipcard::PCSC Perl modules from CPAN.
 pcsc-tools:
-pcsc-tools: Packaged by Georgi D. Sotirov <gdsotirov@dir.bg>
+pcsc-tools: Packaged by Georgi D. Sotirov <gdsotirov@gmail.com>
