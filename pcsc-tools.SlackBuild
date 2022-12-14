@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Slackware build script for pcsc-tools
-# Copyright (C) 2010-2020 Georgi D. Sotirov <gdsotirov@gmail.com>
+# Copyright (C) 2010-2022 Georgi D. Sotirov <gdsotirov@dir.bg>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@
 . ../../slack-package.conf
 
 NAME=pcsc-tools
-VERSION=1.5.7
+VERSION=1.5.8
 ARCH=${ARCH:-i586}
 BUILD=${BUILD:-1}
 
@@ -34,7 +34,7 @@ if [ ! -e $TMP ]; then
   mkdir -p $TMP # location to build the source
 fi
 
-SRC=$TMP/${NAME}-${NAME}-${VERSION}
+SRC=$TMP/${NAME}-${VERSION}
 if [ -e $SRC -a -d $SRC ]; then
   echo "Source directory '$SRC' already exists! Plaese, move it or remove it."
   exit 1
