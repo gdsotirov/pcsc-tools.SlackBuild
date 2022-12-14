@@ -23,7 +23,7 @@
 . ../../slack-package.conf
 
 NAME=pcsc-tools
-VERSION=1.5.8
+VERSION=1.6.0
 ARCH=${ARCH:-i586}
 BUILD=${BUILD:-1}
 
@@ -49,7 +49,7 @@ mkdir --parents $PKG
 
 # Extract the source
 cd $TMP
-tar --extract --verbose --file=$CWD/${NAME}-${VERSION}.tar.gz || exit 3
+tar --extract --verbose --file=$CWD/${NAME}-${VERSION}.tar.bz2 || exit 3
 cd $SRC
 fix_source
 
