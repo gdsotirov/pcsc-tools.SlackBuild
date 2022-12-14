@@ -31,12 +31,12 @@ TMP=${TMP:-/tmp}
 CWD=${CWD:-`pwd`}
 
 if [ ! -e $TMP ]; then
-  mkdir -p $TMP # location to build the source
+  mkdir --parents $TMP # location to build the source
 fi
 
 SRC=$TMP/${NAME}-${VERSION}
 if [ -e $SRC -a -d $SRC ]; then
-  echo "Source directory '$SRC' already exists! Plaese, move it or remove it."
+  echo "Source directory '$SRC' already exists! Please, move it or remove it."
   exit 1
 fi
 
@@ -45,30 +45,30 @@ if [ -e $PKG -a -d $PKG ]; then
   echo "Package creation directory '$PKG' already exists! Please, move it or remove it."
   exit 2
 fi
-mkdir -p $PKG
+mkdir --parents $PKG
 
 # Extract the source
 cd $TMP
-tar -xvf $CWD/${NAME}-${VERSION}.tar.gz || exit 3
+tar --extract --verbose --file=$CWD/${NAME}-${VERSION}.tar.gz || exit 3
 cd $SRC
 fix_source
 
 # Apply patches
 if [ -e $CWD/${NAME}-${VERSION}.diff ]; then
-  patch -p1 < $CWD/${NAME}-${VERSION}.diff || exit 4
+  patch --backup --strip=1 --suffix=.orig < $CWD/${NAME}-${VERSION}.diff || exit 4
 fi
 
 # Configure
-autoreconf -vif || exit 51
+autoreconf --force --install --verbose || exit 51
 CFLAGS="$SLKCFLAGS" \
-./configure --build=${ARCH}-slackware-linux \
-            --host=${ARCH}-slackware-linux \
+./configure --build="${ARCH}-slackware-linux" \
+            --host="${ARCH}-slackware-linux" \
             --prefix=/usr \
             --mandir=/usr/man \
             --docdir=/usr/doc/${NAMEL}-${VERSION} || exit 5
 
 # Build & install
-make V=1 -j || exit 6
+make V=1 --jobs || exit 6
 make DESTDIR=$PKG install || exit 7
 make DESTDIR=$PKG \
      INSTALL_PREFIX=/usr \
@@ -76,8 +76,9 @@ make DESTDIR=$PKG \
      install || exit 6
 
 # Additional install steps
-mkdir -p $PKG/usr/share/applications
-install -m 644 -p $SRC/gscriptor.desktop $PKG/usr/share/applications
+install --mode 755 --directory $PKG/usr/share/applications
+install --mode 644 --preserve-timestamps \
+        $SRC/gscriptor.desktop $PKG/usr/share/applications
 
 # Prepare
 bin_perms $PKG
@@ -87,28 +88,35 @@ DOCFILES="$DOCFILES LICENCE"
 create_docs $PKG ${NAME}-${VERSION}
 ( cd $PKG/usr/doc/${NAME}-${VERSION}; mv LICENCE COPYING )
 
-mkdir -p $PKG/install
-install -m 644 -p $CWD/slack-desc     $PKG/install/slack-desc
-install -m 644 -p $CWD/slack-required $PKG/install/slack-required
+install --mode 755 --directory $PKG/install
+install --mode 644 --preserve-timestamps \
+        $CWD/slack-desc     $PKG/install/slack-desc
+install --mode 644 --preserve-timestamps \
+        $CWD/slack-required $PKG/install/slack-required
 
 SBDIR=$PKG/usr/src/slackbuilds/${NAME}-${VERSION}
-mkdir -p $SBDIR
-install -m 644 -p $CWD/slack-desc       $SBDIR/slack-desc
-install -m 644 -p $CWD/slack-required   $SBDIR/slack-required
+install --mode 755 --directory $SBDIR
+install --mode 644 --preserve-timestamps \
+        $CWD/slack-desc       $SBDIR/slack-desc
+install --mode 644 --preserve-timestamps \
+        $CWD/slack-required   $SBDIR/slack-required
 if [ -e $CWD/${NAME}-${VERSION}.diff ]; then
-  install -m 644 -p $CWD/${NAME}-${VERSION}.diff $SBDIR/${NAME}-${VERSION}.diff
+install --mode 644 --preserve-timestamps \
+        $CWD/${NAME}-${VERSION}.diff $SBDIR/${NAME}-${VERSION}.diff
 fi
-install -m 644 -p $CWD/${NAME}.SlackBuild $SBDIR/${NAME}.SlackBuild
+install --mode 644 --preserve-timestamps \
+        $CWD/${NAME}.SlackBuild $SBDIR/${NAME}.SlackBuild
 
+# Create package
 cd $PKG
 PKGNAME=${NAME}-${VERSION}-${ARCH}-${BUILD}${MYIN}
-makepkg -l y -c n $PKG_DIR/${PKGNAME}.txz
-cd $PKG_DIR
-md5sum ${PKGNAME}.txz > ${PKGNAME}.txz.md5
-cat $PKG/install/slack-desc > $PKG_DIR/${PKGNAME}.txt
+makepkg --chown n --linkadd y --prepend $PKG_DIR/${PKGNAME}.txz
+md5sum $PKG_DIR/${PKGNAME}.txz > $PKG_DIR/${PKGNAME}.txz.md5
+install --mode 644 $PKG/install/slack-desc $PKG_DIR/${PKGNAME}.txt
 
+# Clean Up
 if [ "$1" == "--cleanup" ]; then
-  rm -r $SRC
-  rm -r $PKG
+  rm --recursive $SRC
+  rm --recursive $PKG
 fi
 
