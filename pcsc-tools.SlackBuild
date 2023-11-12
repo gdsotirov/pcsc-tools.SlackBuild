@@ -23,7 +23,7 @@
 . ../../slack-package.conf
 
 NAME=pcsc-tools
-VERSION=1.6.2
+VERSION=1.7.0
 ARCH=${ARCH:-i586}
 BUILD=${BUILD:-1}
 
